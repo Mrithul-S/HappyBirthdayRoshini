@@ -105,6 +105,10 @@ img.ph{aspect-ratio:auto;height:auto;display:block}#gal{margin:0 -22px 10px;opac
 #gm .rw img{width:170px;height:226px;margin-right:5px;object-fit:cover;border-radius:12px;flex:none;filter:brightness(.6) saturate(.9)}
 @keyframes gmv{to{transform:translateX(-50%)}}
 #land{background:radial-gradient(circle at 50% 35%,rgba(92,22,48,.78),rgba(42,10,22,.9) 70%)}
+#cake #bnt{position:absolute;top:0;left:0;width:100%;height:auto;pointer-events:none;opacity:0;transform:translateY(-150px);transition:transform 1.7s cubic-bezier(.2,1.15,.3,1),opacity 1s;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));z-index:3;overflow:visible}
+#cake #bnt.on{opacity:1;transform:none}
+#bnt .sw{transform-origin:0 0;animation:swg 3s ease-in-out infinite alternate}
+@keyframes swg{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
 </style></head><body class="lock">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><div id="petals"></div>
@@ -199,7 +203,7 @@ stg.addEventListener('pointerup',function(e){var dx=e.clientX-sx;if(Math.abs(dx)
 new IntersectionObserver(function(e){if(e[0].isIntersecting&&!man&&!auto)auto=setInterval(function(){go(cur+1)},3800);else if(!e[0].isIntersecting){clearInterval(auto);auto=null}},{threshold:.5}).observe(stg);
 go(0);
 var done=false;
-window.blow=function(){if(done)return;done=true;if(window.out3d)window.out3d();$('hint').style.display='none';$('hb').classList.add('on');
+window.blow=function(){if(done)return;done=true;var bt=$('bnt');if(bt)bt.classList.add('on');if(window.out3d)window.out3d();$('hint').style.display='none';$('hb').classList.add('on');
 var c=$('cake'),i,b;for(i=0;i<34;i++){b=document.createElement('i');b.className='b';var a=Math.random()*6.28,r=90+Math.random()*190;
 b.style.cssText='--dx:'+Math.cos(a)*r+'px;--dy:'+(Math.sin(a)*r-60)+'px;background:'+(i%2?'#f08aa0':'#c4445f')+';animation-delay:'+Math.random()*.2+'s';c.appendChild(b);(function(x){setTimeout(function(){x.remove()},2200)})(b)}
 $('story').hidden=false;
@@ -271,4 +275,9 @@ for(r=0;r<8;r++){rw=document.createElement('div');rw.className='rw';s='';
 for(i=0;i<N*m;i++)s+='<img alt="" src="'+th[(i+r*3)%N]+'">';rw.innerHTML=s+s;g.appendChild(rw)}
 wr.appendChild(g);gm.appendChild(wr);document.body.insertBefore(gm,document.body.firstChild)}
 })();
+(function(){var cols=['#f08aa0','#fff0f2','#e8607f','#f3d28b','#b8325a','#f7b6c2'],h='',k=0,S=[[[-10,30],[170,120],[410,40],14],[[-10,95],[120,110],[310,-10],11]];
+S.forEach(function(s){var a=s[0],c=s[1],b=s[2],i,t,u,x,y,dx,dy,an,col;h+='<path d="M'+a+' Q'+c+' '+b+'" fill="none" stroke="#f3d28b" stroke-opacity=".85" stroke-width="1.6"/>';
+for(i=0;i<s[3];i++){t=(i+.5)/s[3];u=1-t;x=u*u*a[0]+2*u*t*c[0]+t*t*b[0];y=u*u*a[1]+2*u*t*c[1]+t*t*b[1];dx=2*u*(c[0]-a[0])+2*t*(b[0]-c[0]);dy=2*u*(c[1]-a[1])+2*t*(b[1]-c[1]);an=Math.atan2(dy,dx)*180/Math.PI*.75;col=cols[k++%cols.length];
+h+='<g transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate('+an.toFixed(1)+')"><g class="sw" style="animation-delay:-'+(Math.random()*3).toFixed(2)+'s;animation-duration:'+(2.4+Math.random()*1.6).toFixed(2)+'s"><polygon points="-11,0 11,0 0,32" fill="'+col+'"/><polygon points="-11,0 0,0 0,32" fill="#fff" opacity=".18"/></g></g>'}});
+document.getElementById('cake').insertAdjacentHTML('afterbegin','<svg id="bnt" viewBox="0 0 400 170" aria-hidden="true">'+h+'</svg>')})();
 </script></body></html>
